@@ -2,31 +2,32 @@
 
 import sys
 import threading
+from collections import deque
 
 
 def compute_height(n, parents):
-    # Create an empty list of nodes, where each index corresponds to a node
+    # Create list of lists. each list contains children indexes for corresponding parent node
     nodes = [[] for _ in range(n)]
-
-    # Fill the nodes list with children for each parent
     for child_index, parent_index in enumerate(parents):
-        if parent_index == -1: # A parent index of -1 indicates the root node
+        # By the way find and store root
+        if parent_index == -1:
             root = child_index
         else:
             nodes[parent_index].append(child_index)
-    
-    # Define a recursive function to compute the height of a given node
-    def compute_node_height(node_index):
-        # The height of a node is the maximum height of its children + 1
-        children = nodes[node_index]
-        if len(children) == 0: # The node is a leaf (it has no children)
-            return 1
-        else:
-            return 1 + max(compute_node_height(child) for child in children)
-    
-    # Compute and return the height of the tree
-    return compute_node_height(root)
 
+
+    # Implement BFS to calculate height
+    queue = deque([(root, 1)])  # Tuple of node index and its level. Store root tree first
+    max_height = 0
+    # While queue is not empty
+    while queue:
+        # Remove last queue item
+        node, height = queue.popleft()
+        max_height = max(max_height, height)
+        # Add other children to the queue
+        for child in nodes[node]:
+            queue.append((child, height + 1))
+    return max_height
 
 def main():
     n = int(input())

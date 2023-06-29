@@ -1,6 +1,10 @@
-import java.util.*;
-import java.io.*;
-import java.lang.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class tree_height {
     class FastScanner {
@@ -37,18 +41,49 @@ public class tree_height {
 
 
 		int computeHeight() {
-			
+			ArrayList<Integer>[] nodes = new ArrayList[n];
 
-                        // Replace this code with a faster implementation
-			int maxHeight = 0;
-			for (int vertex = 0; vertex < n; vertex++) {
-				int height = 0;
-				for (int i = vertex; i != -1; i = parent[i])
-					height++;
-				maxHeight = Math.max(maxHeight, height);
+			// Initialize the ArrayLists
+			for (int i = 0; i < nodes.length; i++) {
+        		nodes[i] = new ArrayList<Integer>();
+        	}
+			int root = -1;
+			for (int i=0; i < n; i++) {
+				if (parent[i] == -1) {
+					// By the way find and store root
+					root = i;
+				} else {
+					nodes[parent[i]].add(i);
+				}
 			}
-			return maxHeight;
-		}
+			// Implement BFS queue
+			Queue<ArrayList<Integer>> queue = new LinkedList<>();
+			//  Store root tree first
+			ArrayList<Integer> node = new ArrayList<Integer>();
+			node.add(root);
+			node.add(1);
+			queue.add(node);
+			int max_height = 0;
+
+			// While queue is not empty
+			while (!queue.isEmpty()) {
+				// Remove last queue item
+				ArrayList<Integer> current_node = queue.poll();
+				int height = current_node.get(1);
+				max_height = Math.max(max_height, height);
+
+				// Add other children to the queue
+				for (int child: nodes[current_node.get(0)]) {
+					ArrayList<Integer> new_node = new ArrayList<Integer>();
+					new_node.add(child);
+					new_node.add(height+1);
+					queue.add(new_node);
+				}
+			}
+			return max_height;
+			}
+
+		
 	}
 
 	static public void main(String[] args) throws IOException {
