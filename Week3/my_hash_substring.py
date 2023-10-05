@@ -1,4 +1,17 @@
-# python3
+"""Find pattern in text
+Problem Introduction
+In this problem, your goal is to implement the Rabin–Karp’s algorithm.
+Problem Description
+Task. In this problem your goal is to implement the Rabin–Karp’s algorithm for searching the given pattern
+in the given text.
+Input Format. There are two strings in the input: the pattern 𝑃 and the text 𝑇.
+Constraints. 1 ≤ |𝑃| ≤ |𝑇| ≤ 5 · 105
+. The total length of all occurrences of 𝑃 in 𝑇 doesn’t exceed 108
+. The
+pattern and the text contain only latin letters.
+Output Format. Print all the positions of the occurrences of 𝑃 in 𝑇 in the ascending order. Use 0-based
+indexing of positions in the the text 𝑇."""
+
 from random import randint
 
 def read_input():
